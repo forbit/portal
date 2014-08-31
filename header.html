@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>vtiger CRM 5 - CustomerPortal</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style_new.css" rel="stylesheet" type="text/css">
+    <?php
+    // Prototype library clashes with AutoComplete library in use so avoid on those pages
+    if($_REQUEST['fun'] != 'newticket') {
+    	echo '<script language="javascript" type="text/javascript" src="js/prototype.js"></script>';
+    }
+    ?>
+
+    <script language="javascript" type="text/javascript" src="js/general.js"></script>
+    <script>
+    function fnMySettings() {
+		params = "last_login=<?php echo $_SESSION['last_login']; ?>&support_start_date=<?php echo $_SESSION['support_start_date']; ?>&support_end_date=<?php echo $_SESSION['support_end_date']; ?>";
+		window.open("MySettings.php?"+params,"MySetttings","menubar=no,location=no,resizable=no,scrollbars=no,status=no,width=400,height=350,left=550,top=200");
+    }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Forbit Portal</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <?php
+                            $modules = $_SESSION['__permitted_modules'];
+                            foreach ($modules as $module) {
+                                if(!file_exists($module)) {
+                                    continue;
+                                }
+
+                                $requestModule = $_REQUEST['module'];
+                                $actived = strcmp(rtrim($requestModule, '/'), $module) == 0 ? 'active' : '';
+
+                                echo '<li class="' . $actived . '">
+                                        <a href="index.php?module=' . $module . '&action=index&onlymine=true">' . getTranslatedString($module) .'</a>
+                                    </li>';
+                            }
+                        ?>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                   <a href="#" onclick="fnMySettings();"> <span class="glyphicon glyphicon-cog"></span> <?= getTranslatedString('LBL_MY_SETTINGS') ?></a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="index.php?logout=true"> <span class="glyphicon glyphicon-log-out"></span> <?= getTranslatedString('LBL_LOG_OUT') ?></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>

@@ -1,0 +1,16 @@
+.button-form {
+    float: right;
+    margin-left: 10px;
+}
+
+.form-actions {
+    margin-bottom: 20px;
+}
+
+.detail-label {
+    background-color: #fafafa;
+}
+
+small {
+    color: #666666;
+}

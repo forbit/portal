@@ -1,0 +1,28 @@
+<?php
+    $only_mine = isset($_REQUEST['only_mine']) ? " checked " : "";
+    $show = $_REQUEST['showstatus'] != '' ? $_REQUEST['showstatus'] : "";
+?>
+<script>
+    function verify_data(form,fldval) {
+        com = trim(form.fldval.value);
+        if(com != '') {
+            return true;
+        }
+
+        return false;
+    }
+
+    function showTickets(form) {
+        var showstatus = form.ticket_status_combo.value;
+        var obj = form.only_mine_combo;
+        var onlymine = true;
+        if (obj != null) {
+            var list_type = form.only_mine_combo.value;
+            if (list_type == 'all') {
+                onlymine = false;
+            }
+        }
+
+        window.location.href = "index.php?module=HelpDesk&action=index&showstatus="+showstatus+"&onlymine="+onlymine;
+    }
+</script>

@@ -1,0 +1,46 @@
+
+<div id="tabSrch">
+	<img id="tabSrch_progress" src="images/status.gif" border="0" align="right">
+	<form name="search" method="post" action="index.php">
+		<input type="hidden" name="module">
+		<input type="hidden" name="action">
+		<input type="hidden" name="fun">
+
+		<div id="_search_formelements_"></div>
+	</form>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+function showSearchFormNow(elementid) {
+	fnDown(elementid);
+
+	if($(elementid).loaded) {
+		return;
+	} else {
+		// Squeeze the search div wrapper
+		$(elementid).style.width = '100px';
+	}
+
+	var url = 'module=HelpDesk&action=SearchForm&ajax=true';
+
+	new Ajax.Request(
+		'index.php', {queue: {position: 'end', scope: 'command'},
+		method: 'post',
+		postBody:url,
+		onComplete: function(response){
+
+			// Set the width of serach div wrapper
+			$(elementid).style.width = '700px';
+
+			$('_search_formelements_').innerHTML = response.responseText;
+			$(elementid).loaded = true;
+			$(elementid+'_progress').hide();
+		}
+	});
+
+}
+</script>
+</div>
